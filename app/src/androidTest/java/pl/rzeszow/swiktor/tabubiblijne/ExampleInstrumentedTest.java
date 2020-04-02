@@ -1,4 +1,4 @@
-package pl.rzeszow.swiktor.tabujw;
+package pl.rzeszow.swiktor.tabubiblijne;
 
 import android.content.Context;
 

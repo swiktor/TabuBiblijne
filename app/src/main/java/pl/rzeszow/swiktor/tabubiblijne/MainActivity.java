@@ -1,4 +1,4 @@
-package pl.rzeszow.swiktor.tabujw;
+package pl.rzeszow.swiktor.tabubiblijne;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    final CountDownTimer zegar = new CountDownTimer(121000, 1000) {
+    final CountDownTimer zegar = new CountDownTimer(121500, 1000) {
 
         public void onTick(long millisUntilFinished) {
             zegarTextView.setText("Pozostało: " + millisUntilFinished / 1000 + " sekund");
