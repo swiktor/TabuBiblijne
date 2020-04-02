@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Tabu biblijne</string>
+    <string name="testowe">Pole testowe</string>
+    <string name="losujHasloButton">Losuj hasło</string>
+    <string name="bladObrazka">Nie można załadować obrazka</string>
+    <string name="zgadniete">Udało się zgadnąć?</string>
+    <string name="tak">TAK</string>
+    <string name="nie">NIE</string>
+    <string name="biblioteczka">Biblioteczka internetowa</string>
+    <string name="koniecCzasu">Koniec czasu!</string>
+    <string name="pozostalo">Pozostało: </string>
+    <string name="sekund"> sekund</string>
+</resources>
