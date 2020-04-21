@@ -1,4 +1,4 @@
-package pl.rzeszow.swiktor.tabubiblijne;
+package pl.rzeszow.swiktor.tabuteokratyczne;
 
 
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class WebViewActivity extends AppCompatActivity {
+public class BiblioteczkaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

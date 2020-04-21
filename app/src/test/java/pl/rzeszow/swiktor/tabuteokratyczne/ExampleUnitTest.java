@@ -1,4 +1,4 @@
-package pl.rzeszow.swiktor.tabubiblijne;
+package pl.rzeszow.swiktor.tabuteokratyczne;
 
 import org.junit.Test;
 

@@ -1,7 +1,8 @@
-package pl.rzeszow.swiktor.tabubiblijne;
+package pl.rzeszow.swiktor.tabuteokratyczne;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -60,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
     TextView zgadnieteTextView;
 
     String[] biblioteczka;
+
+    String personId = getIntent().getStringExtra("personId");
+    String imie = getIntent().getStringExtra("imie");
+    String zwrotka = getIntent().getStringExtra("zwrotka");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, WebViewActivity.class);
+                intent.setClass(MainActivity.this, BiblioteczkaActivity.class);
                 intent.putExtra("biblioteczka", biblioteczka[0]);
                 startActivity(intent);
             }
@@ -149,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     final CountDownTimer zegar = new CountDownTimer(121500, 1000) {
 
+        @SuppressLint("SetTextI18n")
         public void onTick(long millisUntilFinished) {
             zegarTextView.setText("Pozostało: " + millisUntilFinished / 1000 + " sekund");
             zegarTextView.setTypeface(null, Typeface.BOLD);
@@ -210,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void downloadJSON(final String urlWebService) {
 
+        @SuppressLint("StaticFieldLeak")
         class DownloadJSON extends AsyncTask<Void, Void, String> {
 
             @Override
