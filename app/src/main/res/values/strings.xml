@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tabu biblijne</string>
+    <string name="app_name">Tabu teokratyczne</string>
     <string name="testowe">Pole testowe</string>
     <string name="losujHasloButton">Losuj hasło</string>
     <string name="bladObrazka">Nie można załadować obrazka</string>
@@ -11,4 +11,8 @@
     <string name="pozostalo">Pozostało: </string>
     <string name="sekund"> sekund</string>
     <string name="server_client_id">452173695282-ppj5c58ack634oho9r81rtrfmi7cvb5r.apps.googleusercontent.com</string>
+    <string name="witaj">Witaj </string>
+    <string name="masz">Masz </string>
+    <string name="pkt"> pkt.</string>
+    <string name="blad_aktualizacji">Nie wysłano aktualizacji hasła</string>
 </resources>

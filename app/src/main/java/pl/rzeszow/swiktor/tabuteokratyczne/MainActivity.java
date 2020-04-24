@@ -3,13 +3,11 @@ package pl.rzeszow.swiktor.tabuteokratyczne;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -59,13 +57,12 @@ public class MainActivity extends AppCompatActivity {
     TextView zegarTextView;
     TextView hasloTextView;
     TextView zgadnieteTextView;
+    TextView osobaTextView;
+    TextView punktyTextView;
 
     String[] biblioteczka;
 
-    String personId = getIntent().getStringExtra("personId");
-    String imie = getIntent().getStringExtra("imie");
-    String zwrotka = getIntent().getStringExtra("zwrotka");
-
+    String personId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,11 +79,30 @@ public class MainActivity extends AppCompatActivity {
         nieButton.setTypeface(null, Typeface.BOLD);
 
         hasloTextView = (TextView) findViewById(R.id.hasloTextView);
+        osobaTextView = (TextView) findViewById(R.id.osobaTextView);
+        punktyTextView = (TextView) findViewById(R.id.punktyTextView);
 
         losujHasloButton = (Button) findViewById(R.id.losujHasloButton);
         losujHasloButton.setText(R.string.losujHasloButton);
 
         zegarTextView = (TextView) findViewById(R.id.zegarTextView);
+
+        personId = getIntent().getStringExtra("personId");
+        String imie = getResources().getString(R.string.witaj) + " " + getIntent().getStringExtra("imie");
+        String punkty = getIntent().getStringExtra("zwrotka");
+        punkty = getResources().getString(R.string.masz) + " " + punkty + " "+ getResources().getString(R.string.pkt);
+
+        osobaTextView.setText(imie);
+        punktyTextView.setText(punkty);
+
+        punktyTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, RankingActivity.class);
+                startActivity(intent);
+            }
+        });
 
         losujHasloButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -163,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
         public void onFinish() {
             zegarTextView.setText(R.string.koniecCzasu);
             zegarTextView.setTypeface(null, Typeface.BOLD);
-            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(500);
 
             zgadnieteTextView.setVisibility(View.INVISIBLE);
             takButton.setVisibility(View.INVISIBLE);
@@ -191,14 +205,23 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // response
-                        Log.d("Response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String zwrotka = obj.getString("zwrotka");
+
+                            String punkty = getResources().getString(R.string.masz) + " " + zwrotka + " "+ getResources().getString(R.string.pkt);
+                            punktyTextView.setText(punkty);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Nie wysłano aktualizacji hasła", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.blad_aktualizacji) , Toast.LENGTH_LONG).show();
                     }
                 }
         ) {
@@ -207,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("zgadniety", zgadniete);
                 params.put("haslo", haslo);
+                params.put("personId", personId);
                 return params;
             }
         };

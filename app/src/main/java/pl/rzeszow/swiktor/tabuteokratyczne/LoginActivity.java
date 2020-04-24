@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     String stan = "nowy";
     String personId = "";
     String imie = "";
+    String nazwisko = "";
+    String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +95,11 @@ public class LoginActivity extends AppCompatActivity {
 
             // Signed in successfully, show authenticated UI.
             stan = "nowy";
-//            personId = account.getId();
-//            imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
-//            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" "));
-//            email = account.getEmail();
-            wyslijID (account,stan);
+            personId = account.getId();
+            imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
+            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" "));
+            email = account.getEmail();
+            wyslijID (stan, personId, imie, nazwisko, email);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -114,19 +116,16 @@ public class LoginActivity extends AppCompatActivity {
 
         if(account != null) {
             stan = "stary";
-//            personId = account.getId();
-//            imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
-//            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")+1);
-//            email = account.getEmail();
-
-            wyslijID (account,stan);
-//            wyslijID (stan, personId, imie, nazwisko, email);
+            personId = account.getId();
+            imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
+            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")+1);
+            email = account.getEmail();
+            wyslijID (stan, personId, imie, nazwisko, email);
         }
         super.onStart();
     }
 
-//    private void wyslijID (final String stan, final String personId, final String imie, final String nazwisko, final String email) {
-    private void wyslijID (final GoogleSignInAccount account,final String stan) {
+    private void wyslijID (final String stan, final String personId, final String imie, final String nazwisko, final String email) {
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
 
@@ -164,12 +163,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-
-                personId = account.getId();
-                imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
-                String nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" "));
-                String email = account.getEmail();
-
                 params.put("stan", stan);
                 params.put("personId", personId);
                 params.put("imie", imie);
