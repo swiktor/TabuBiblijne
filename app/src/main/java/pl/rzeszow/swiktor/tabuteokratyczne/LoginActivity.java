@@ -147,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("imie", imie);
                             intent.putExtra("zwrotka", zwrotka);
                             startActivity(intent);
+                            finish();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

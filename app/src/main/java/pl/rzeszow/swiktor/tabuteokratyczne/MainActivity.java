@@ -113,11 +113,14 @@ public class MainActivity extends AppCompatActivity {
                 zegar.start();
 
                 zgadnieteTextView.setVisibility(View.VISIBLE);
+                zakazaneListView.setVisibility(View.VISIBLE);
                 takButton.setVisibility(View.VISIBLE);
                 nieButton.setVisibility(View.VISIBLE);
                 biblioteczkaButton.setVisibility(View.VISIBLE);
 
                 losujHasloButton.setVisibility(View.GONE);
+                osobaTextView.setVisibility(View.GONE);
+                punktyTextView.setVisibility(View.GONE);
 
             }
         });
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
                 zegar.cancel();
 
+                zakazaneListView.setVisibility(View.GONE);
                 zgadnieteTextView.setVisibility(View.INVISIBLE);
                 takButton.setVisibility(View.INVISIBLE);
                 nieButton.setVisibility(View.INVISIBLE);
@@ -136,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
                 zgadnieteStanString = "TAK";
                 InsertData(zgadnieteStanString, hasloString);
+                osobaTextView.setVisibility(View.VISIBLE);
+                punktyTextView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -144,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
                 zegar.cancel();
 
+                zakazaneListView.setVisibility(View.GONE);
                 zgadnieteTextView.setVisibility(View.INVISIBLE);
                 takButton.setVisibility(View.INVISIBLE);
                 nieButton.setVisibility(View.INVISIBLE);
@@ -153,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
 
                 zgadnieteStanString = "NIE";
                 InsertData(zgadnieteStanString, hasloString);
+                osobaTextView.setVisibility(View.VISIBLE);
+                punktyTextView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -181,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
             zegarTextView.setTypeface(null, Typeface.BOLD);
 
             zgadnieteTextView.setVisibility(View.INVISIBLE);
+            zakazaneListView.setVisibility(View.GONE);
             takButton.setVisibility(View.INVISIBLE);
             nieButton.setVisibility(View.INVISIBLE);
             biblioteczkaButton.setVisibility(View.INVISIBLE);
@@ -189,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
 
             zgadnieteStanString = "NIE";
             InsertData(zgadnieteStanString, hasloString);
+
+            osobaTextView.setVisibility(View.VISIBLE);
+            punktyTextView.setVisibility(View.VISIBLE);
         }
     };
 
