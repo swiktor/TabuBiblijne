@@ -43,16 +43,17 @@
                     android:text="@string/gra" />
 
                 <Button
+                    android:id="@+id/profil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profil" />
+
+                <Button
                     android:id="@+id/frag_ranking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/ranking" />
 
-                <Button
-                    android:id="@+id/profil"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/profil" />
 
                 <Button
                     android:id="@+id/wyloguj"

@@ -26,12 +26,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,10 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -93,17 +87,15 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            // Signed in successfully, show authenticated UI.
             stan = "nowy";
             personId = account.getId();
             imie = account.getDisplayName().substring(0, account.getDisplayName().indexOf(" "));
-            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" "));
+            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")).trim();
             email = account.getEmail();
-            zdjecieURL = account.getPhotoUrl().toString();;
+            zdjecieURL = account.getPhotoUrl().toString();
+            ;
             wyslijID(stan, personId, imie, nazwisko, email);
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("Google Sign In Error", "signInResult:failed code=" + e.getStatusCode());
             Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_LONG).show();
         }
@@ -111,17 +103,15 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         if (account != null) {
             stan = "stary";
             personId = account.getId();
             imie = account.getDisplayName().substring(0, account.getDisplayName().indexOf(" "));
-            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ") + 1);
+            nazwisko = account.getDisplayName().substring((account.getDisplayName().indexOf(" ") + 1)).trim();
             email = account.getEmail();
-            zdjecieURL = account.getPhotoUrl().toString();;
+            zdjecieURL = account.getPhotoUrl().toString();
             wyslijID(stan, personId, imie, nazwisko, email);
         }
         super.onStart();
@@ -178,10 +168,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
-
     }
-
-
 }
 
 

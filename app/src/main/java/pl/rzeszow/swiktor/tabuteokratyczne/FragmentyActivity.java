@@ -1,5 +1,6 @@
 package pl.rzeszow.swiktor.tabuteokratyczne;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,11 +14,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Date;
 
@@ -69,7 +78,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
 
         fragGraButton = (Button) findViewById(R.id.frag_gra);
         fragRankingButton = (Button) findViewById(R.id.frag_ranking);
-        wylogujButton = (Button) findViewById(R.id.wyloguj); //TODO: DOROBIĆ WYLOGOWANIE
+        wylogujButton = (Button) findViewById(R.id.wyloguj); 
         profilButton = (Button) findViewById(R.id.profil);
 
         personId = getIntent().getStringExtra("personId");
@@ -117,6 +126,14 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
                 closeMenu();
             }
         });
+
+        wylogujButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wyloguj();
+            }
+        });
+
 
         pageTitle = (TextView) findViewById(R.id.pageTitle);
         mRootLayout = (View) findViewById(R.id.root);
@@ -345,5 +362,23 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
         closeMenu();
     }
 
+    private void wyloguj() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent intent = new Intent();
+                        intent.setClass(FragmentyActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
 
 }
