@@ -46,13 +46,11 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
     private RelativeLayout mMovableArea = null;
     private ImageButton mBtnMenu = null;
 
-
     private int mLeftMenuWidth = 0;
     private boolean mMenuSliding = false;
     private boolean mMenuOpen = false;
     private int mMenuPosition = 0;
     private View mRootLayout = null;
-
 
     private float mMenuSlideStartX = 0;
     private long mMenuSlideStartTime = 0;
@@ -78,7 +76,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
 
         fragGraButton = (Button) findViewById(R.id.frag_gra);
         fragRankingButton = (Button) findViewById(R.id.frag_ranking);
-        wylogujButton = (Button) findViewById(R.id.wyloguj); 
+        wylogujButton = (Button) findViewById(R.id.wyloguj);
         profilButton = (Button) findViewById(R.id.profil);
 
         personId = getIntent().getStringExtra("personId");

@@ -3,6 +3,7 @@ package pl.rzeszow.swiktor.tabuteokratyczne.fragmenty;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -72,13 +73,10 @@ public class GraFragment extends Fragment {
     private String personId = "";
 
     private NarzedziaWspolne.TitleChangeListener listener;
+    MediaPlayer mediaPlayer;
 
-    public static GraFragment newInstance(/*ewentualne prametry np. String
-param1*/) {
+    public static GraFragment newInstance() {
         GraFragment fragment = new GraFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_NAME, param1);
-        fragment.setArguments(args);*/
         return fragment;
     }
 
@@ -103,8 +101,6 @@ param1*/) {
         nieButton.setTypeface(null, Typeface.BOLD);
 
         hasloTextView = (TextView) view.findViewById(R.id.hasloTextView);
-//        osobaTextView = (TextView) getView().findViewById(R.id.osobaTextView);
-//        punktyTextView = (TextView) getView().findViewById(R.id.punktyTextView);
 
         losujHasloButton = (Button) view.findViewById(R.id.losujHasloButton);
         losujHasloButton.setText(R.string.losujHasloButton);
@@ -135,7 +131,7 @@ param1*/) {
             public void onClick(View v) {
 
                 zegar.cancel();
-
+                mediaPlayer.stop();
                 zakazaneListView.setVisibility(View.GONE);
                 zgadnieteTextView.setVisibility(View.INVISIBLE);
                 takButton.setVisibility(View.INVISIBLE);
@@ -155,7 +151,7 @@ param1*/) {
             public void onClick(View v) {
 
                 zegar.cancel();
-
+                mediaPlayer.stop();
                 zakazaneListView.setVisibility(View.GONE);
                 zgadnieteTextView.setVisibility(View.INVISIBLE);
                 takButton.setVisibility(View.INVISIBLE);
@@ -203,15 +199,23 @@ param1*/) {
         }
     }
 
-    private final CountDownTimer zegar = new CountDownTimer(121500, 1000) {
+    private final CountDownTimer zegar = new CountDownTimer(120100, 1000) {
 
         @SuppressLint("SetTextI18n")
         public void onTick(long millisUntilFinished) {
             zegarTextView.setText("Pozostało: " + millisUntilFinished / 1000 + " sekund");
+            if (millisUntilFinished / 1000 == 10) {
+
+                mediaPlayer = MediaPlayer.create(getContext(), R.raw.odliczanie);
+                mediaPlayer.start();
+            }
+
             zegarTextView.setTypeface(null, Typeface.BOLD);
         }
 
         public void onFinish() {
+            mediaPlayer.stop();
+            
             zegarTextView.setText(R.string.koniecCzasu);
             zegarTextView.setTypeface(null, Typeface.BOLD);
 
@@ -225,6 +229,7 @@ param1*/) {
 
             zgadnieteStanString = "NIE";
             InsertData(zgadnieteStanString, hasloString);
+
 
 //            osobaTextView.setVisibility(View.VISIBLE);
 //            punktyTextView.setVisibility(View.VISIBLE);
