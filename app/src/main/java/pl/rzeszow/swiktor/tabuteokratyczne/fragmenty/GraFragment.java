@@ -2,7 +2,6 @@ package pl.rzeszow.swiktor.tabuteokratyczne.fragmenty;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,7 +47,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import pl.rzeszow.swiktor.tabuteokratyczne.BiblioteczkaActivity;
 import pl.rzeszow.swiktor.tabuteokratyczne.NarzedziaWspolne;
 import pl.rzeszow.swiktor.tabuteokratyczne.R;
 
@@ -60,7 +58,7 @@ public class GraFragment extends Fragment {
 
     private ListView zakazaneListView;
 
-    private  String zgadnieteStanString = "NIE";
+    private String zgadnieteStanString = "NIE";
     private String hasloString;
 
     private TextView zegarTextView;

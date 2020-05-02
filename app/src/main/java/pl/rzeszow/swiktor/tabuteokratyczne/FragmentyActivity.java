@@ -1,5 +1,6 @@
 package pl.rzeszow.swiktor.tabuteokratyczne;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,13 +22,15 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Date;
 
 import pl.rzeszow.swiktor.tabuteokratyczne.fragmenty.GraFragment;
+import pl.rzeszow.swiktor.tabuteokratyczne.fragmenty.ProfilFragment;
 import pl.rzeszow.swiktor.tabuteokratyczne.fragmenty.RankingFragment;
 
 public class FragmentyActivity extends AppCompatActivity implements NarzedziaWspolne.TitleChangeListener {
 
-    Button frag_gra;
-    Button frag_ranking;
-    Button wyloguj;
+    Button fragGraButton;
+    Button fragRankingButton;
+    Button wylogujButton;
+    Button profilButton;
 
     private RelativeLayout mLeftMenu = null;
     private RelativeLayout mNavigationBar = null;
@@ -54,45 +57,68 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
 
     private TextView pageTitle;
     String personId = "";
-    String imie = "";
+    String imie_nazwisko = "";
+    String email = "";
     String punkty = "";
+    String zdjecieURL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragmenty);
 
-        frag_gra = (Button) findViewById(R.id.frag_gra);
-        frag_ranking = (Button) findViewById(R.id.frag_ranking);
-        wyloguj = (Button) findViewById(R.id.wyloguj);
+        fragGraButton = (Button) findViewById(R.id.frag_gra);
+        fragRankingButton = (Button) findViewById(R.id.frag_ranking);
+        wylogujButton = (Button) findViewById(R.id.wyloguj); //TODO: DOROBIĆ WYLOGOWANIE
+        profilButton = (Button) findViewById(R.id.profil);
 
         personId = getIntent().getStringExtra("personId");
-        imie = getResources().getString(R.string.witaj) + " " + getIntent().getStringExtra("imie");
+        zdjecieURL = getIntent().getStringExtra("zdjecieURL");
+        email = getIntent().getStringExtra("email");
+        imie_nazwisko = getResources().getString(R.string.witaj) + " " + getIntent().getStringExtra("imie") + " " + getIntent().getStringExtra("nazwisko");
         punkty = getIntent().getStringExtra("zwrotka");
         punkty = getResources().getString(R.string.masz) + " " + punkty + " " + getResources().getString(R.string.pkt);
 
-        frag_gra.setOnClickListener(new View.OnClickListener() {
+        fragGraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 domyslnyFragment();
             }
         });
 
-        frag_ranking.setOnClickListener(new View.OnClickListener() {
+        fragRankingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = RankingFragment.newInstance(/*ewentualne parametry*/);
+                Fragment fragment = RankingFragment.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+                closeMenu();
+            }
+        });
+
+        profilButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = ProfilFragment.newInstance();
+                Bundle args = new Bundle();
+                args.putString("zdjecieURL", zdjecieURL);
+                args.putString("imie_nazwisko", imie_nazwisko);
+                args.putString("email", email);
+                args.putString("punkty", punkty);
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                ft.addToBackStack(null);
                 ft.commit();
                 closeMenu();
             }
         });
 
         pageTitle = (TextView) findViewById(R.id.pageTitle);
-
-
         mRootLayout = (View) findViewById(R.id.root);
 
         mLeftMenu = (RelativeLayout) findViewById(R.id.leftMenu);
@@ -307,8 +333,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
 
     }
 
-    private void domyslnyFragment()
-    {
+    private void domyslnyFragment() {
         Fragment fragment = GraFragment.newInstance();
         Bundle args = new Bundle();
         args.putString("personId", personId);

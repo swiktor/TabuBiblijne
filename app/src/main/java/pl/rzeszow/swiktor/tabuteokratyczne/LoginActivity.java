@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Cache;
@@ -49,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     String imie = "";
     String nazwisko = "";
     String email = "";
+    String zdjecieURL = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -96,10 +96,11 @@ public class LoginActivity extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
             stan = "nowy";
             personId = account.getId();
-            imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
+            imie = account.getDisplayName().substring(0, account.getDisplayName().indexOf(" "));
             nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" "));
             email = account.getEmail();
-            wyslijID (stan, personId, imie, nazwisko, email);
+            zdjecieURL = account.getPhotoUrl().toString();;
+            wyslijID(stan, personId, imie, nazwisko, email);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -114,18 +115,19 @@ public class LoginActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        if(account != null) {
+        if (account != null) {
             stan = "stary";
             personId = account.getId();
-            imie = account.getDisplayName().substring(0,account.getDisplayName().indexOf(" "));
-            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")+1);
+            imie = account.getDisplayName().substring(0, account.getDisplayName().indexOf(" "));
+            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ") + 1);
             email = account.getEmail();
-            wyslijID (stan, personId, imie, nazwisko, email);
+            zdjecieURL = account.getPhotoUrl().toString();;
+            wyslijID(stan, personId, imie, nazwisko, email);
         }
         super.onStart();
     }
 
-    private void wyslijID (final String stan, final String personId, final String imie, final String nazwisko, final String email) {
+    private void wyslijID(final String stan, final String personId, final String imie, final String nazwisko, final String email) {
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
 
@@ -145,6 +147,9 @@ public class LoginActivity extends AppCompatActivity {
                             intent.setClass(LoginActivity.this, FragmentyActivity.class);
                             intent.putExtra("personId", personId);
                             intent.putExtra("imie", imie);
+                            intent.putExtra("nazwisko", nazwisko);
+                            intent.putExtra("email", email);
+                            intent.putExtra("zdjecieURL", zdjecieURL);
                             intent.putExtra("zwrotka", zwrotka);
                             startActivity(intent);
                             finish();
@@ -152,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        }
+                    }
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -174,8 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         queue.add(postRequest);
 
-        }
-
+    }
 
 
 }

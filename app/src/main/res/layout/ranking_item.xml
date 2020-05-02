@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
     android:padding="5dp">
 
     <TextView
@@ -9,23 +11,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="punkty"
-        android:textSize="20sp"
         android:layout_marginStart="5dp"
-        />
+        android:text="punkty"
+        android:clickable="false"
+        android:textSize="28sp" />
+
     <LinearLayout
-        android:layout_toStartOf="@+id/ilePunktow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_toStartOf="@+id/ilePunktow"
+        android:clickable="false"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/kto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="kto"
-            android:textSize="20sp"
-            />
+            android:textSize="25sp" />
 
     </LinearLayout>
 </RelativeLayout>

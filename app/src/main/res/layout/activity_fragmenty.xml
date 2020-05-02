@@ -25,7 +25,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="-100dp"
-        android:paddingTop="20dp">
+        android:gravity="center">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -49,11 +49,16 @@
                     android:text="@string/ranking" />
 
                 <Button
+                    android:id="@+id/profil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profil" />
+
+                <Button
                     android:id="@+id/wyloguj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/wyloguj" />
-
 
             </LinearLayout>
         </ScrollView>
