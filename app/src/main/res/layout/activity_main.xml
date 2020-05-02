@@ -4,36 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:ignore="MissingConstraints">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/osobaTextView"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textAlignment="center"
-        tools:ignore="MissingConstraints"
-        android:text="Witaj"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/punktyTextView"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textAlignment="center"
-        tools:ignore="MissingConstraints"
-        android:clickable="true"
-        android:text="Masz tyle punktow"/>
-
-</LinearLayout>
+    android:id="@+id/graAll">
 
     <LinearLayout
         android:layout_width="match_parent"

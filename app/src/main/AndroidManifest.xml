@@ -14,21 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="pl.rzeszow.swiktor.tabuteokratyczne.MainActivity"
-            android:label="Gra" />
-        <activity
             android:name="pl.rzeszow.swiktor.tabuteokratyczne.BiblioteczkaActivity"
             android:label="Biblioteczka internetowa" />
-        <activity
-            android:name="pl.rzeszow.swiktor.tabuteokratyczne.LoginActivity">
+        <activity android:name="pl.rzeszow.swiktor.tabuteokratyczne.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="pl.rzeszow.swiktor.tabuteokratyczne.RankingActivity"
-            android:label="Ranking" />
+
+        <activity android:name="FragmentyActivity" />
     </application>
 
 </manifest>

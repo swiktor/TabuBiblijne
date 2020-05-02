@@ -1,18 +1,16 @@
-package pl.rzeszow.swiktor.tabuteokratyczne;
+package pl.rzeszow.swiktor.tabuteokratyczne.fragmenty;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -30,28 +28,43 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class RankingActivity extends AppCompatActivity {
+import pl.rzeszow.swiktor.tabuteokratyczne.NarzedziaWspolne;
+import pl.rzeszow.swiktor.tabuteokratyczne.R;
 
-    ListView rankingListView;
-    ArrayList<HashMap<String, String>> rankingList;
+public class RankingFragment extends Fragment {
+
+    private NarzedziaWspolne.TitleChangeListener listener;
+
+    private ListView rankingListView;
+    private ArrayList<HashMap<String, String>> rankingList;
+
+    public static RankingFragment newInstance() {
+        RankingFragment fragment = new RankingFragment();
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ranking);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.activity_ranking, container, false);
 
         rankingList = new ArrayList<>();
-        rankingListView = (ListView) findViewById(R.id.rankingListView);
+        rankingListView = view.findViewById(R.id.rankingListView);
 
         pobierzRanking();
-     }
+
+        if (listener != null)
+            listener.onTitleSet(getResources().getString(R.string.ranking));
+        return view;
+    }
 
     private void pobierzRanking() {
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+        Cache cache = new DiskBasedCache(getActivity().getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
 
         RequestQueue queue = new RequestQueue(cache, network);
@@ -74,7 +87,7 @@ public class RankingActivity extends AppCompatActivity {
                                 rankingList.add(ranking);
                             }
                             ListAdapter adapter = new SimpleAdapter(
-                                    RankingActivity.this,
+                                    getContext(),
                                     rankingList,
                                     R.layout.ranking_item,
                                     new String[]{"kto", "ilePunktow"},
@@ -89,7 +102,7 @@ public class RankingActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Nie pobrano rankingu", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(), "Nie pobrano rankingu", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -103,6 +116,16 @@ public class RankingActivity extends AppCompatActivity {
 
         };
         queue.add(postRequest);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof NarzedziaWspolne.TitleChangeListener) {
+            listener = (NarzedziaWspolne.TitleChangeListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " musi  implementować interfejs:Utils.TitleChangeListener");
+        }
     }
 
 }

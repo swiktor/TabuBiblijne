@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                             zwrotka = obj.getString("zwrotka");
 
                             Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this, MainActivity.class);
+                            intent.setClass(LoginActivity.this, FragmentyActivity.class);
                             intent.putExtra("personId", personId);
                             intent.putExtra("imie", imie);
                             intent.putExtra("zwrotka", zwrotka);

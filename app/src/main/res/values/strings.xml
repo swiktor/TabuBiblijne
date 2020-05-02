@@ -15,4 +15,8 @@
     <string name="masz">Masz </string>
     <string name="pkt"> pkt.</string>
     <string name="blad_aktualizacji">Nie wysłano aktualizacji hasła</string>
+    <string name="gra">Graj</string>
+    <string name="ranking">Ranking</string>
+    <string name="wyloguj">Wyloguj</string>
+    <string name="profil">Mój profil</string>
 </resources>

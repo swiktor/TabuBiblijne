@@ -1,20 +1,26 @@
-package pl.rzeszow.swiktor.tabuteokratyczne;
-
-import androidx.appcompat.app.AppCompatActivity;
+package pl.rzeszow.swiktor.tabuteokratyczne.fragmenty;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -27,10 +33,6 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,71 +41,77 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+import pl.rzeszow.swiktor.tabuteokratyczne.BiblioteczkaActivity;
+import pl.rzeszow.swiktor.tabuteokratyczne.NarzedziaWspolne;
+import pl.rzeszow.swiktor.tabuteokratyczne.R;
 
-    Button losujHasloButton;
-    Button biblioteczkaButton;
-    Button takButton;
-    Button nieButton;
+public class GraFragment extends Fragment {
+    private Button losujHasloButton;
+    private Button biblioteczkaButton;
+    private Button takButton;
+    private Button nieButton;
 
-    ListView zakazaneListView;
+    private ListView zakazaneListView;
 
-    String zgadnieteStanString = "NIE";
-    String hasloString;
+    private  String zgadnieteStanString = "NIE";
+    private String hasloString;
 
-    TextView zegarTextView;
-    TextView hasloTextView;
-    TextView zgadnieteTextView;
-    TextView osobaTextView;
-    TextView punktyTextView;
+    private TextView zegarTextView;
+    private TextView hasloTextView;
+    private TextView zgadnieteTextView;
+//    private TextView osobaTextView;
+//    private TextView punktyTextView;
 
-    String[] biblioteczka;
+    private String[] biblioteczka;
 
-    String personId = "";
+    private String personId = "";
+
+    private NarzedziaWspolne.TitleChangeListener listener;
+
+    public static GraFragment newInstance(/*ewentualne prametry np. String
+param1*/) {
+        GraFragment fragment = new GraFragment();
+        /*Bundle args = new Bundle();
+        args.putString(ARG_NAME, param1);
+        fragment.setArguments(args);*/
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        zakazaneListView = (ListView) findViewById(R.id.zakazaneListView);
-        zgadnieteTextView = (TextView) findViewById(R.id.zgadniete);
-        takButton = (Button) findViewById(R.id.takButton);
-        nieButton = (Button) findViewById(R.id.nieButton);
+        View view = inflater.inflate(R.layout.activity_main, container, false);
 
-        biblioteczkaButton = (Button) findViewById(R.id.biblioteczkaButton);
+        personId = getArguments().getString("personId");
+
+        Log.w("personId", personId);
+
+        zakazaneListView = (ListView) view.findViewById(R.id.zakazaneListView);
+        zgadnieteTextView = (TextView) view.findViewById(R.id.zgadniete);
+        takButton = (Button) view.findViewById(R.id.takButton);
+        nieButton = (Button) view.findViewById(R.id.nieButton);
+
+        biblioteczkaButton = (Button) view.findViewById(R.id.biblioteczkaButton);
 
         takButton.setTypeface(null, Typeface.BOLD);
         nieButton.setTypeface(null, Typeface.BOLD);
 
-        hasloTextView = (TextView) findViewById(R.id.hasloTextView);
-        osobaTextView = (TextView) findViewById(R.id.osobaTextView);
-        punktyTextView = (TextView) findViewById(R.id.punktyTextView);
+        hasloTextView = (TextView) view.findViewById(R.id.hasloTextView);
+//        osobaTextView = (TextView) getView().findViewById(R.id.osobaTextView);
+//        punktyTextView = (TextView) getView().findViewById(R.id.punktyTextView);
 
-        losujHasloButton = (Button) findViewById(R.id.losujHasloButton);
+        losujHasloButton = (Button) view.findViewById(R.id.losujHasloButton);
         losujHasloButton.setText(R.string.losujHasloButton);
 
-        zegarTextView = (TextView) findViewById(R.id.zegarTextView);
-
-        personId = getIntent().getStringExtra("personId");
-        String imie = getResources().getString(R.string.witaj) + " " + getIntent().getStringExtra("imie");
-        String punkty = getIntent().getStringExtra("zwrotka");
-        punkty = getResources().getString(R.string.masz) + " " + punkty + " "+ getResources().getString(R.string.pkt);
-
-        osobaTextView.setText(imie);
-        punktyTextView.setText(punkty);
-
-        punktyTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, RankingActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        zegarTextView = (TextView) view.findViewById(R.id.zegarTextView);
         losujHasloButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -119,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 biblioteczkaButton.setVisibility(View.VISIBLE);
 
                 losujHasloButton.setVisibility(View.GONE);
-                osobaTextView.setVisibility(View.GONE);
-                punktyTextView.setVisibility(View.GONE);
+//                osobaTextView.setVisibility(View.GONE);
+//                punktyTextView.setVisibility(View.GONE);
 
             }
         });
@@ -140,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
                 zgadnieteStanString = "TAK";
                 InsertData(zgadnieteStanString, hasloString);
-                osobaTextView.setVisibility(View.VISIBLE);
-                punktyTextView.setVisibility(View.VISIBLE);
+//                osobaTextView.setVisibility(View.VISIBLE);
+//                punktyTextView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -160,24 +168,44 @@ public class MainActivity extends AppCompatActivity {
 
                 zgadnieteStanString = "NIE";
                 InsertData(zgadnieteStanString, hasloString);
-                osobaTextView.setVisibility(View.VISIBLE);
-                punktyTextView.setVisibility(View.VISIBLE);
+//                osobaTextView.setVisibility(View.VISIBLE);
+//                punktyTextView.setVisibility(View.VISIBLE);
             }
         });
 
         biblioteczkaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, BiblioteczkaActivity.class);
-                intent.putExtra("biblioteczka", biblioteczka[0]);
-                startActivity(intent);
+                Fragment fragment = BiblioteczkaFragment.newInstance();
+                Bundle args = new Bundle();
+                args.putString("biblioteczka", biblioteczka[0]);
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.graAll, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+
             }
         });
 
+        if (listener != null)
+            listener.onTitleSet(getResources().getString(R.string.gra));
+        return view;
     }
 
-    final CountDownTimer zegar = new CountDownTimer(121500, 1000) {
+    @Override
+    public void onAttach(@NonNull Context context) {
+
+        super.onAttach(context);
+        if (context instanceof NarzedziaWspolne.TitleChangeListener) {
+            listener = (NarzedziaWspolne.TitleChangeListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " musi  implementować interfejs:Utils.TitleChangeListener");
+        }
+    }
+
+    private final CountDownTimer zegar = new CountDownTimer(121500, 1000) {
 
         @SuppressLint("SetTextI18n")
         public void onTick(long millisUntilFinished) {
@@ -200,20 +228,21 @@ public class MainActivity extends AppCompatActivity {
             zgadnieteStanString = "NIE";
             InsertData(zgadnieteStanString, hasloString);
 
-            osobaTextView.setVisibility(View.VISIBLE);
-            punktyTextView.setVisibility(View.VISIBLE);
+//            osobaTextView.setVisibility(View.VISIBLE);
+//            punktyTextView.setVisibility(View.VISIBLE);
         }
     };
 
     private void InsertData(final String zgadniete, final String haslo) {
 
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+        Cache cache = new DiskBasedCache(Objects.requireNonNull(getActivity()).getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
 
         RequestQueue queue = new RequestQueue(cache, network);
         queue.start();
 
         String url = "https://swiktor.rzeszow.pl/JW/kalambury/wyslijHaslo.php";
+
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -222,8 +251,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject obj = new JSONObject(response);
                             String zwrotka = obj.getString("zwrotka");
 
-                            String punkty = getResources().getString(R.string.masz) + " " + zwrotka + " "+ getResources().getString(R.string.pkt);
-                            punktyTextView.setText(punkty);
+//                            String punkty = getResources().getString(R.string.masz) + " " + zwrotka + " " + getResources().getString(R.string.pkt);
+//                            punktyTextView.setText(punkty);
 
 
                         } catch (JSONException e) {
@@ -234,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.blad_aktualizacji) , Toast.LENGTH_LONG).show();
+                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), getResources().getString(R.string.blad_aktualizacji), Toast.LENGTH_LONG).show();
                     }
                 }
         ) {
@@ -248,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
-
     }
 
     private void downloadJSON(final String urlWebService) {
@@ -308,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void pobierzZakazane(final String hasloWylosowane) {
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+        Cache cache = new DiskBasedCache(Objects.requireNonNull(getActivity()).getCacheDir(), 1024 * 1024); // 1MB cap
         Network network = new BasicNetwork(new HurlStack());
 
         RequestQueue queue = new RequestQueue(cache, network);
@@ -330,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             ArrayList<String> zakazneLista = new ArrayList<String>(Arrays.asList(stocks));
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.simplerow, zakazneLista);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(Objects.requireNonNull(getContext()), R.layout.simplerow, zakazneLista);
                             zakazaneListView.setAdapter(adapter);
 
                         } catch (JSONException e) {
@@ -341,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                         Toast.makeText(getApplicationContext(), "Nie pobrano zakazanych", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Nie pobrano zakazanych", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
@@ -354,4 +382,5 @@ public class MainActivity extends AppCompatActivity {
         };
         queue.add(postRequest);
     }
+
 }
