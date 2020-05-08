@@ -61,6 +61,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/wyloguj" />
 
+                <Button
+                    android:id="@+id/wyjdz"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wyjdz" />
+
+
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

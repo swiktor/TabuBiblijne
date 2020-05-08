@@ -2,6 +2,7 @@ package pl.rzeszow.swiktor.tabuteokratyczne;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -90,7 +91,13 @@ public class LoginActivity extends AppCompatActivity {
             stan = "nowy";
             personId = account.getId();
             imie = account.getDisplayName().substring(0, account.getDisplayName().indexOf(" "));
-            nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")).trim();
+
+            if (!TextUtils.isEmpty(account.getDisplayName().substring(account.getDisplayName().indexOf(" ")).trim())) {
+                nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")).trim();
+            } else {
+                nazwisko = "XYZ";
+            }
+
             email = account.getEmail();
             zdjecieURL = account.getPhotoUrl().toString();
             ;
@@ -109,7 +116,13 @@ public class LoginActivity extends AppCompatActivity {
             stan = "stary";
             personId = account.getId();
             imie = account.getDisplayName().substring(0, account.getDisplayName().indexOf(" "));
-            nazwisko = account.getDisplayName().substring((account.getDisplayName().indexOf(" ") + 1)).trim();
+
+            if (!TextUtils.isEmpty(account.getDisplayName().substring(account.getDisplayName().indexOf(" ")).trim())) {
+                nazwisko = account.getDisplayName().substring(account.getDisplayName().indexOf(" ")).trim();
+            } else {
+                nazwisko = "XYZ";
+            }
+            
             email = account.getEmail();
             zdjecieURL = account.getPhotoUrl().toString();
             wyslijID(stan, personId, imie, nazwisko, email);

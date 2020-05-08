@@ -19,4 +19,8 @@
     <string name="ranking">Ranking</string>
     <string name="wyloguj">Wyloguj</string>
     <string name="profil">Mój profil</string>
+    <string name="wyjdz">Wyjście</string>
+    <string name="wyjdz_nie">Nie, zostaję</string>
+    <string name="wyjdz_tak">Tak, wychodzę</string>
+    <string name="wyjdz_pytanie">Chcesz wyjść?</string>
 </resources>

@@ -1,5 +1,6 @@
 package pl.rzeszow.swiktor.tabuteokratyczne;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -40,6 +42,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
     Button fragRankingButton;
     Button wylogujButton;
     Button profilButton;
+    Button wyjdzButton;
 
     private RelativeLayout mLeftMenu = null;
     private RelativeLayout mNavigationBar = null;
@@ -78,6 +81,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
         fragRankingButton = (Button) findViewById(R.id.frag_ranking);
         wylogujButton = (Button) findViewById(R.id.wyloguj);
         profilButton = (Button) findViewById(R.id.profil);
+        wyjdzButton = (Button) findViewById(R.id.wyjdz);
 
         personId = getIntent().getStringExtra("personId");
         zdjecieURL = getIntent().getStringExtra("zdjecieURL");
@@ -128,10 +132,38 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
         wylogujButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("Wyloguj", "0");
                 wyloguj();
             }
         });
 
+        wyjdzButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(FragmentyActivity.this);
+                builder.setTitle(R.string.wyjdz);
+                builder.setMessage(R.string.wyjdz_pytanie);
+                builder.setPositiveButton(R.string.wyjdz_tak, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton(R.string.wyjdz_nie, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        closeMenu();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
         pageTitle = (TextView) findViewById(R.id.pageTitle);
         mRootLayout = (View) findViewById(R.id.root);
@@ -364,9 +396,9 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
+        Log.d("Wyloguj", "1");
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
+        Log.d("Wyloguj", "2");
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
@@ -377,6 +409,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
                         finish();
                     }
                 });
+        Log.d("Wyloguj", "3");
     }
 
 }

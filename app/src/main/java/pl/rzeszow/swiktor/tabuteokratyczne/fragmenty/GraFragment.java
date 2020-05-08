@@ -65,8 +65,6 @@ public class GraFragment extends Fragment {
     private TextView zegarTextView;
     private TextView hasloTextView;
     private TextView zgadnieteTextView;
-//    private TextView osobaTextView;
-//    private TextView punktyTextView;
 
     private String[] biblioteczka;
 
@@ -87,8 +85,6 @@ public class GraFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_main, container, false);
 
         personId = getArguments().getString("personId");
-
-        Log.w("personId", personId);
 
         zakazaneListView = (ListView) view.findViewById(R.id.zakazaneListView);
         zgadnieteTextView = (TextView) view.findViewById(R.id.zgadniete);
@@ -121,8 +117,6 @@ public class GraFragment extends Fragment {
                 biblioteczkaButton.setVisibility(View.VISIBLE);
 
                 losujHasloButton.setVisibility(View.GONE);
-//                osobaTextView.setVisibility(View.GONE);
-//                punktyTextView.setVisibility(View.GONE);
 
             }
         });
@@ -131,7 +125,9 @@ public class GraFragment extends Fragment {
             public void onClick(View v) {
 
                 zegar.cancel();
-                mediaPlayer.stop();
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                }
                 zakazaneListView.setVisibility(View.GONE);
                 zgadnieteTextView.setVisibility(View.INVISIBLE);
                 takButton.setVisibility(View.INVISIBLE);
@@ -142,8 +138,6 @@ public class GraFragment extends Fragment {
 
                 zgadnieteStanString = "TAK";
                 InsertData(zgadnieteStanString, hasloString);
-//                osobaTextView.setVisibility(View.VISIBLE);
-//                punktyTextView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -151,7 +145,9 @@ public class GraFragment extends Fragment {
             public void onClick(View v) {
 
                 zegar.cancel();
-                mediaPlayer.stop();
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                }
                 zakazaneListView.setVisibility(View.GONE);
                 zgadnieteTextView.setVisibility(View.INVISIBLE);
                 takButton.setVisibility(View.INVISIBLE);
@@ -162,8 +158,6 @@ public class GraFragment extends Fragment {
 
                 zgadnieteStanString = "NIE";
                 InsertData(zgadnieteStanString, hasloString);
-//                osobaTextView.setVisibility(View.VISIBLE);
-//                punktyTextView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -214,8 +208,10 @@ public class GraFragment extends Fragment {
         }
 
         public void onFinish() {
-            mediaPlayer.stop();
-            
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+            }
+
             zegarTextView.setText(R.string.koniecCzasu);
             zegarTextView.setTypeface(null, Typeface.BOLD);
 
@@ -229,10 +225,6 @@ public class GraFragment extends Fragment {
 
             zgadnieteStanString = "NIE";
             InsertData(zgadnieteStanString, hasloString);
-
-
-//            osobaTextView.setVisibility(View.VISIBLE);
-//            punktyTextView.setVisibility(View.VISIBLE);
         }
     };
 
@@ -250,17 +242,6 @@ public class GraFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            String zwrotka = obj.getString("zwrotka");
-
-//                            String punkty = getResources().getString(R.string.masz) + " " + zwrotka + " " + getResources().getString(R.string.pkt);
-//                            punktyTextView.setText(punkty);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                 },
                 new Response.ErrorListener() {
