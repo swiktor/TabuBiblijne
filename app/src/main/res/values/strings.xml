@@ -23,4 +23,6 @@
     <string name="wyjdz_nie">Nie, zostaję</string>
     <string name="wyjdz_tak">Tak, wychodzę</string>
     <string name="wyjdz_pytanie">Chcesz wyjść?</string>
+    <string name="pytajnik">Pytajnik</string>
+    <string name="ksiazka">Książka</string>
 </resources>

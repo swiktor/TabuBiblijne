@@ -91,17 +91,6 @@
             android:paddingRight="40dp"
             android:src="@drawable/hamburger" />
 
-
-        <TextView
-            android:id="@+id/pageTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/btnMenu"
-            android:gravity="center_horizontal"
-            android:text="test" />
-
-
     </RelativeLayout>
 
 </RelativeLayout>

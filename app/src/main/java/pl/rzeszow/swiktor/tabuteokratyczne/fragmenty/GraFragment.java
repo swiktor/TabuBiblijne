@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +58,9 @@ public class GraFragment extends Fragment {
     private Button biblioteczkaButton;
     private Button takButton;
     private Button nieButton;
+
+    private ImageView pytajnikImageView;
+    private ImageView ksiazkakImageView;
 
     private ListView zakazaneListView;
 
@@ -101,6 +106,45 @@ public class GraFragment extends Fragment {
         losujHasloButton = (Button) view.findViewById(R.id.losujHasloButton);
         losujHasloButton.setText(R.string.losujHasloButton);
 
+        pytajnikImageView = (ImageView) view.findViewById(R.id.pytajnikImageView);
+
+        Picasso.get().load(R.drawable.pytajnik).placeholder(R.mipmap.ic_launcher) // optional
+                .error(R.mipmap.ic_launcher) //if error
+                .resize(500, 500)
+                .into(pytajnikImageView, new com.squareup.picasso.Callback() {
+
+                    @Override
+                    public void onSuccess() {
+                        Log.w("Picasso", "Pykło");
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.w("Picasso", e);
+                    }
+
+                });
+
+        ksiazkakImageView = (ImageView) view.findViewById(R.id.ksiazkakImageView);
+
+        Picasso.get().load(R.drawable.ksiazka).placeholder(R.mipmap.ic_launcher) // optional
+                .error(R.mipmap.ic_launcher) //if error
+                .resize(800, 600)
+                .into(ksiazkakImageView, new com.squareup.picasso.Callback() {
+
+                    @Override
+                    public void onSuccess() {
+                        Log.w("Picasso", "Pykło");
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.w("Picasso", e);
+                    }
+
+                });
+
+
         zegarTextView = (TextView) view.findViewById(R.id.zegarTextView);
         losujHasloButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -117,6 +161,8 @@ public class GraFragment extends Fragment {
                 biblioteczkaButton.setVisibility(View.VISIBLE);
 
                 losujHasloButton.setVisibility(View.GONE);
+                pytajnikImageView.setVisibility(View.VISIBLE);
+                ksiazkakImageView.setVisibility(View.GONE);
 
             }
         });
@@ -135,7 +181,7 @@ public class GraFragment extends Fragment {
                 biblioteczkaButton.setVisibility(View.INVISIBLE);
 
                 losujHasloButton.setVisibility(View.VISIBLE);
-
+                pytajnikImageView.setVisibility(View.GONE);
                 zgadnieteStanString = "TAK";
                 InsertData(zgadnieteStanString, hasloString);
             }
@@ -155,6 +201,7 @@ public class GraFragment extends Fragment {
                 biblioteczkaButton.setVisibility(View.INVISIBLE);
 
                 losujHasloButton.setVisibility(View.VISIBLE);
+                pytajnikImageView.setVisibility(View.GONE);
 
                 zgadnieteStanString = "NIE";
                 InsertData(zgadnieteStanString, hasloString);
@@ -180,17 +227,6 @@ public class GraFragment extends Fragment {
         if (listener != null)
             listener.onTitleSet(getResources().getString(R.string.gra));
         return view;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-
-        super.onAttach(context);
-        if (context instanceof NarzedziaWspolne.TitleChangeListener) {
-            listener = (NarzedziaWspolne.TitleChangeListener) context;
-        } else {
-            throw new ClassCastException(context.toString() + " musi  implementować interfejs:Utils.TitleChangeListener");
-        }
     }
 
     private final CountDownTimer zegar = new CountDownTimer(120100, 1000) {
@@ -222,6 +258,7 @@ public class GraFragment extends Fragment {
             biblioteczkaButton.setVisibility(View.INVISIBLE);
 
             losujHasloButton.setVisibility(View.VISIBLE);
+            pytajnikImageView.setVisibility(View.GONE);
 
             zgadnieteStanString = "NIE";
             InsertData(zgadnieteStanString, hasloString);

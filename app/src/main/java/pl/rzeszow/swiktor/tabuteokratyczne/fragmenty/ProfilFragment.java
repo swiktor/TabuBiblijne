@@ -69,14 +69,4 @@ public class ProfilFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof NarzedziaWspolne.TitleChangeListener) {
-            listener = (NarzedziaWspolne.TitleChangeListener) context;
-        } else {
-            throw new ClassCastException(context.toString() + " musi  implementować interfejs:Utils.TitleChangeListener");
-        }
-    }
-
 }

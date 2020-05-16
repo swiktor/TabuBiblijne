@@ -36,7 +36,7 @@ import pl.rzeszow.swiktor.tabuteokratyczne.fragmenty.GraFragment;
 import pl.rzeszow.swiktor.tabuteokratyczne.fragmenty.ProfilFragment;
 import pl.rzeszow.swiktor.tabuteokratyczne.fragmenty.RankingFragment;
 
-public class FragmentyActivity extends AppCompatActivity implements NarzedziaWspolne.TitleChangeListener {
+public class FragmentyActivity extends AppCompatActivity {
 
     Button fragGraButton;
     Button fragRankingButton;
@@ -65,7 +65,6 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
 
     protected boolean handleSlideEnabled = true;
 
-    private TextView pageTitle;
     String personId = "";
     String imie_nazwisko = "";
     String email = "";
@@ -165,7 +164,7 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
             }
         });
 
-        pageTitle = (TextView) findViewById(R.id.pageTitle);
+
         mRootLayout = (View) findViewById(R.id.root);
 
         mLeftMenu = (RelativeLayout) findViewById(R.id.leftMenu);
@@ -347,12 +346,6 @@ public class FragmentyActivity extends AppCompatActivity implements NarzedziaWsp
             }
         }
     }
-
-    @Override
-    public void onTitleSet(String msg) {
-        pageTitle.setText(msg);
-    }
-
 
     private class SlideAnimation extends Animation {
         private static final float SPEED = 3.0f;

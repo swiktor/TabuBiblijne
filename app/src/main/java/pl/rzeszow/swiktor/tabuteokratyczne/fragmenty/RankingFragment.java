@@ -118,14 +118,5 @@ public class RankingFragment extends Fragment {
         queue.add(postRequest);
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof NarzedziaWspolne.TitleChangeListener) {
-            listener = (NarzedziaWspolne.TitleChangeListener) context;
-        } else {
-            throw new ClassCastException(context.toString() + " musi  implementować interfejs:Utils.TitleChangeListener");
-        }
-    }
 
 }
