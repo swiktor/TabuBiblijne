@@ -15,7 +15,6 @@ import pl.rzeszow.swiktor.tabuteokratyczne.R;
 
 public class BiblioteczkaFragment extends Fragment {
 
-    private NarzedziaWspolne.TitleChangeListener listener;
     private WebView mWebView;
 
     public static BiblioteczkaFragment newInstance() {
@@ -33,19 +32,12 @@ public class BiblioteczkaFragment extends Fragment {
         mWebView.loadUrl(biblioteczkaString);
         mWebView.setWebViewClient(new WebViewClient());
 
-        if (listener != null)
-            listener.onTitleSet(getResources().getString(R.string.biblioteczka));
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof NarzedziaWspolne.TitleChangeListener) {
-            listener = (NarzedziaWspolne.TitleChangeListener) context;
-        } else {
-            throw new ClassCastException(context.toString() + " musi  implementować interfejs:Utils.TitleChangeListener");
-        }
     }
 
 }
